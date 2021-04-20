@@ -1,0 +1,48 @@
+spring:
+  application:
+    name: mf-service
+  boot:
+    admin:
+      client:
+        instance:
+          metadata:
+            user:
+              name: ${spring.security.user.name}
+              password: ${spring.security.user.password}
+        password: admin
+        url: http://localhost:8305/admin
+        username: admin
+    jackson:
+      serialization:
+        indent_output: true
+    security:
+      user:
+        name: client
+        password: client
+
+server:
+  port: 8302
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+
+eureka:
+  instance:
+    leaseRenewalIntervalInSeconds: 5
+    leaseExpirationDurationInSeconds: 2
+  client:
+    healthcheck:
+      enabled: true
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: http://localhost:8301/eureka
+    lease:
+      duration: 5
+
+#logging:
+#  level:
+#    root: debug

@@ -1,0 +1,36 @@
+spring:
+  application:
+    name: finance-admin
+  boot:
+    admin:
+      client:
+        instance:
+          metadata:
+            user:
+              name: ${spring.security.user.name}
+              password: ${spring.security.user.password}
+        password: admin
+        url: http://localhost:8305/admin
+        username: admin
+      contextPath: /admin
+      discovery:
+        enabled: true
+      ui:
+        title: Squirrel Administrator
+  security:
+    user:
+      name: admin
+      password: admin
+
+server:
+  port: 8305
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+
+#logging:
+#  level:
+#    root: debug

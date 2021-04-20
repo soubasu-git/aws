@@ -1,0 +1,59 @@
+spring:
+  application:
+    name: finance-zuul-proxy
+  boot:
+    admin:
+      client:
+        instance:
+          metadata:
+            user:
+              name: ${spring.security.user.name}
+              password: ${spring.security.user.password}
+        password: admin
+        url: http://localhost:8305/admin
+        username: admin
+    security:
+      user:
+        name: client
+        password: client
+
+server:
+  port: 8300
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+
+eureka:
+  instance:
+    leaseRenewalIntervalInSeconds: 5
+    leaseExpirationDurationInSeconds: 2
+  client:
+    healthcheck:
+      enabled: true
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: http://localhost:8301/eureka
+    lease:
+      duration: 5
+
+zuul:
+  #Service will be mapped under the /api URI
+  prefix: /api
+  routes:
+    mf-service:
+      path: /mf-service/**
+      url: http://localhost:8302
+    db-service:
+      path: /db-service/**
+      url: http://localhost:8303
+    mf-feeder-service:
+      path: /mf-feeder-service/**
+      url: http://localhost:8304
+
+#logging:
+#  level:
+#    root: debug
